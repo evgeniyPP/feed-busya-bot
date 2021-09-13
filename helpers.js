@@ -10,7 +10,10 @@ const client = sanityClient({
 });
 
 const getTime = date => {
-  return DateTime.fromISO(date).setLocale('ru').setZone('ru').toLocaleString(DateTime.TIME_SIMPLE);
+  return DateTime.fromISO(date)
+    .setLocale('ru')
+    .setZone('UTC+3')
+    .toLocaleString(DateTime.TIME_SIMPLE);
 };
 
 module.exports = { client, getTime };
