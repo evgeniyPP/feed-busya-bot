@@ -1,0 +1,31 @@
+{
+  "name": "feed-busya-bot",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "package.json",
+  "author": "Eugene Petryankin <amenat12@mail.ru>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "node index.js",
+    "sanity:start": "sanity start",
+    "sanity:build": "sanity build"
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@sanity/base": "^2.19.0",
+    "@sanity/core": "^2.19.0",
+    "@sanity/default-layout": "^2.19.0",
+    "@sanity/default-login": "^2.19.0",
+    "@sanity/desk-tool": "^2.19.0",
+    "@sanity/vision": "^2.19.0",
+    "node-telegram-bot-api": "^0.54.0",
+    "prop-types": "^15.7",
+    "react": "^17.0",
+    "react-dom": "^17.0",
+    "styled-components": "^5.2.0"
+  },
+  "devDependencies": {}
+}
