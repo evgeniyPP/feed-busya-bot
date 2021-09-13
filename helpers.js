@@ -1,5 +1,6 @@
 const sanityClient = require('@sanity/client');
 const config = require('config');
+const { DateTime } = require('luxon');
 const projectId = config.get('SANITY_PROJECT_ID');
 const token = config.get('SANITY_TOKEN');
 
@@ -11,12 +12,8 @@ const client = sanityClient({
   useCdn: false,
 });
 
-const trycatch = async cb => {
-  try {
-    await cb();
-  } catch (error) {
-    console.error(error);
-  }
+const getTime = date => {
+  return DateTime.fromISO(date).setLocale('ru').toLocaleString(DateTime.TIME_SIMPLE);
 };
 
-module.exports = { client, trycatch };
+module.exports = { client, getTime };
