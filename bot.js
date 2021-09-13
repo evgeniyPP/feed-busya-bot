@@ -22,7 +22,7 @@ bot.onText(/\/start/, msg => {
   });
 });
 
-bot.onText(/^Я покормил(\-a)$/, msg => {
+bot.onText(/^Я покормил\(\-a\)$/, msg => {
   client
     .create({
       _type: 'feed',
