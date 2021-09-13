@@ -17,12 +17,12 @@ console.log('Bot server started in the ' + process.env.NODE_ENV + ' mode');
 bot.onText(/\/start/, msg => {
   bot.sendMessage(msg.chat.id, 'Добро пожаловать в прислугу Буси!)', {
     reply_markup: {
-      keyboard: [['Когда кормили?', 'Я покормил']],
+      keyboard: [['Когда кормили?', 'Я покормил(-a)']],
     },
   });
 });
 
-bot.onText(/^Я покормил$/, msg => {
+bot.onText(/^Я покормил(\-a)$/, msg => {
   client
     .create({
       _type: 'feed',
