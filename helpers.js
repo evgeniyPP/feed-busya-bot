@@ -1,12 +1,9 @@
 const sanityClient = require('@sanity/client');
-const config = require('config');
 const { DateTime } = require('luxon');
-const projectId = config.get('SANITY_PROJECT_ID') || process.env.SANITY_PROJECT_ID;
-const token = config.get('SANITY_TOKEN') || process.env.SANITY_TOKEN;
 
 const client = sanityClient({
-  projectId,
-  token,
+  projectId: process.env.SANITY_PROJECT_ID,
+  token: process.env.SANITY_TOKEN,
   dataset: 'production',
   apiVersion: '2021-09-13',
   useCdn: false,

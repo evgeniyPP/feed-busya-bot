@@ -21,7 +21,7 @@
     "@sanity/default-login": "^2.19.0",
     "@sanity/desk-tool": "^2.19.0",
     "@sanity/vision": "^2.19.0",
-    "config": "^3.3.6",
+    "dotenv": "^10.0.0",
     "luxon": "^2.0.2",
     "node-telegram-bot-api": "^0.54.0",
     "prop-types": "^15.7",
