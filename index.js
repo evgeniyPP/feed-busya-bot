@@ -31,3 +31,9 @@ bot.onText(/^Когда кормили\?$/, msg => {
     bot.sendMessage(msg.chat.id, `Последний раз кормил(-а) ${who} в ${getTime(when)}`);
   });
 });
+
+const app = require('express')();
+
+app.get('/', (_, res) => res.json({ message: 'Hello' }));
+
+app.listen(3000, () => console.log('Telegram app listening on port 3000!'));
