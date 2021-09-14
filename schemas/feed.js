@@ -13,6 +13,11 @@ export default {
       title: 'Когда',
       type: 'datetime',
     },
+    {
+      name: 'what',
+      title: 'Чем',
+      type: 'string',
+    },
   ],
 
   preview: {

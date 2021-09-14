@@ -6,6 +6,8 @@ const { getSimpleTime, shouldFeed } = require('./time');
 
 let bot;
 
+const DEFAULT_KEYBOARD = [['Когда кормили?', 'Я покормил(-a)']];
+
 if (process.env.NODE_ENV === 'production') {
   bot = new Bot(token);
   bot.setWebHook(process.env.HEROKU_URL + bot.token);
@@ -18,30 +20,54 @@ console.log('Bot server started in the ' + process.env.NODE_ENV + ' mode');
 bot.onText(/\/start/, msg => {
   bot.sendMessage(msg.chat.id, 'Добро пожаловать в прислугу Буси!)', {
     reply_markup: {
-      keyboard: [['Когда кормили?', 'Я покормил(-a)']],
+      keyboard: DEFAULT_KEYBOARD,
     },
   });
 });
 
 bot.onText(/^Я покормил\(\-a\)$/, msg => {
+  bot.sendMessage(msg.chat.id, 'Чем?', {
+    reply_markup: {
+      keyboard: [['сухим кормом', 'консервами', 'домашней едой']],
+    },
+  });
+});
+
+bot.onText(/^сухим кормом$/, (msg, match) => addFeed(msg, match));
+
+bot.onText(/^консервами$/, (msg, match) => addFeed(msg, match));
+
+bot.onText(/^домашней едой$/, (msg, match) => addFeed(msg, match));
+
+bot.onText(/^Когда кормили\?$/, msg => {
+  const query = '*[_type == "feed"] | order(when desc) [0] {who, when, what}';
+
+  db.fetch(query).then(({ who, when, what }) => {
+    const time = getSimpleTime(when);
+    const shouldFeedMsg = shouldFeed(when) ? 'Пора бы покормить.' : 'Пока хватит.';
+
+    bot.sendMessage(
+      msg.chat.id,
+      `Последний раз кормил(-а) ${who} в ${time} ${what}. ${shouldFeedMsg}`
+    );
+  });
+});
+
+function addFeed(msg, what) {
   db.create({
     _type: 'feed',
     who: msg.from.first_name,
     when: new Date(),
+    what,
   })
-    .then(() => bot.sendMessage(msg.chat.id, 'Молодец'))
+    .then(() => {
+      bot.sendMessage(msg.chat.id, 'Молодец', {
+        reply_markup: {
+          keyboard: DEFAULT_KEYBOARD,
+        },
+      });
+    })
     .catch(error => console.error(error));
-});
-
-bot.onText(/^Когда кормили\?$/, msg => {
-  const query = '*[_type == "feed"] | order(when desc) [0] {who, when}';
-
-  db.fetch(query).then(({ who, when }) => {
-    const time = getSimpleTime(when);
-    const shouldFeedMsg = shouldFeed(when) ? 'Пора бы покормить.' : 'Пока хватит.';
-
-    bot.sendMessage(msg.chat.id, `Последний раз кормил(-а) ${who} в ${time}. ${shouldFeedMsg}`);
-  });
-});
+}
 
 module.exports = bot;
