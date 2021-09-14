@@ -28,7 +28,7 @@ bot.onText(/\/start/, msg => {
 bot.onText(/^Я покормил\(\-a\)$/, msg => {
   bot.sendMessage(msg.chat.id, 'Чем?', {
     reply_markup: {
-      keyboard: [['сухим кормом', 'консервами', 'домашней едой']],
+      keyboard: [['сухим кормом', 'консервами', 'домашней едой', 'ничем']],
     },
   });
 });
@@ -38,6 +38,14 @@ bot.onText(/^сухим кормом$/, (msg, match) => addFeed(msg, match));
 bot.onText(/^консервами$/, (msg, match) => addFeed(msg, match));
 
 bot.onText(/^домашней едой$/, (msg, match) => addFeed(msg, match));
+
+bot.onText(/^ничем$/, msg => {
+  bot.sendMessage(msg.chat.id, 'Ну ладно...', {
+    reply_markup: {
+      keyboard: DEFAULT_KEYBOARD,
+    },
+  });
+});
 
 bot.onText(/^Когда кормили\?$/, msg => {
   const query = '*[_type == "feed"] | order(when desc) [0] {who, when, what}';
