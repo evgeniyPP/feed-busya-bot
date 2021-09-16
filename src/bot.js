@@ -73,7 +73,7 @@ bot.onText(/^Когда кормили\?$/, msg => {
 });
 
 bot.on('text', msg => {
-  if (addFeedMode) {
+  if (addFeedMode && msg.text !== 'ничем') {
     addFeed(msg, msg.text);
   }
 });
